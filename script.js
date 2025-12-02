@@ -1,6 +1,6 @@
 import patterns from './utils.js';
 
-(function() {
+(function () {
     class GameOfLife {
         constructor(canvas, cellSize = 10) {
             this.canvas = canvas;
@@ -175,22 +175,39 @@ import patterns from './utils.js';
 
         loadPattern(patternName) {
             this.clear();
-            const centerRow = Math.floor(this.rows / 2);
-            const centerCol = Math.floor(this.cols / 2);
-
             const pattern = patterns[patternName];
-            if (pattern) {
-                pattern.forEach(([row, col]) => {
-                    const newRow = centerRow + row - Math.floor(pattern.length / 2);
-                    const newCol = centerCol + col - 5;
-                    if (newRow >= 0 && newRow < this.rows && newCol >= 0 && newCol < this.cols) {
-                        this.grid[newRow][newCol] = true;
-                    }
-                });
-                this.draw();
-                this.updateStats();
-            }
+            if (!pattern) return;
+
+            // 1. Find bounding box of the pattern
+            const rows = pattern.map(([r, _]) => r);
+            const cols = pattern.map(([_, c]) => c);
+
+            const minRow = Math.min(...rows);
+            const maxRow = Math.max(...rows);
+            const minCol = Math.min(...cols);
+            const maxCol = Math.max(...cols);
+
+            const patternHeight = maxRow - minRow + 1;
+            const patternWidth = maxCol - minCol + 1;
+
+            // 2. Compute top-left so the pattern is centered
+            const startRow = Math.floor((this.rows - patternHeight) / 2) - minRow;
+            const startCol = Math.floor((this.cols - patternWidth) / 2) - minCol;
+
+            // 3. Place cells
+            pattern.forEach(([row, col]) => {
+                const newRow = row + startRow;
+                const newCol = col + startCol;
+
+                if (newRow >= 0 && newRow < this.rows && newCol >= 0 && newCol < this.cols) {
+                    this.grid[newRow][newCol] = true;
+                }
+            });
+
+            this.draw();
+            this.updateStats();
         }
+
     }
 
     const canvas = document.getElementById('gameCanvas');
