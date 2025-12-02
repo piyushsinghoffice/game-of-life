@@ -1,31 +1,36 @@
-# Conway's Game of Life - Rules
-The Game of Life is a cellular automaton created by mathematician John Conway in 1970. It's a zero-player game where you set up an initial configuration and watch it evolve.
+# Conway's Game of Life in JavaScript
 
-## The Rules
-Each cell in the grid can be either alive (colored) or dead (empty). On each generation, the following rules apply:
+This is a simple, interactive implementation of John Conway's Game of Life, built with HTML, CSS, and modern JavaScript. You can set up an initial state by clicking on the grid and watch it evolve, or load from a set of classic preset patterns.
 
-- **Birth:** A dead cell with exactly 3 living neighbors becomes alive
-- **Survival:** A living cell with 2 or 3 living neighbors stays alive
-- **Death by isolation:** A living cell with fewer than 2 neighbors dies
-- **Death by overcrowding:** A living cell with more than 3 neighbors dies
+![Game of Life Demo](https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdG92empzeWh6N3V3a2M3cHg5eHptdGdnbGdlOHEwMjh2YXRkN2o2OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LrY1e5IDFLc1XtDKZf/giphy.gif)
 
-## Neighbors
-Each cell has 8 neighbors: the cells directly adjacent horizontally, vertically, and diagonally.
+## Features
 
-## Interesting Patterns
-- **Still lifes:** Patterns that don't change (like the Block)
-- **Oscillators:** Patterns that repeat after a fixed number of generations (like the Blinker)
-- **Spaceships:** Patterns that move across the grid (like the Glider)
-- **Methuselahs:** Small patterns that take many generations to stabilize
-Try the preset patterns to see these different behaviors in action!
+- **Interactive Grid**: Click or drag on the canvas to toggle cells between alive and dead.
+- **Simulation Controls**: Start, stop, and step through generations one at a time.
+- **Adjustable Speed**: Control the simulation speed with a slider.
+- **Grid Management**: Clear the grid to start fresh or populate it with a random pattern.
+- **Preset Patterns**: Load classic patterns like "Glider," "Pulsar," and "Glider Gun" to see them in action.
+- **Live Stats**: See the current generation number and living cell population updated in real-time.
+- **Informative Rules**: An in-app modal explains the rules of the game.
 
-## Code Structure and Modularization
+## How to Run
 
-This project's code has been modularized to improve maintainability and organization. Here's a breakdown of the file structure and their responsibilities:
+This is a static web project with no build dependencies. To run it, simply open the `index.html` file in your web browser.
 
--   **`index.html`**: This file contains the main HTML structure of the application. It now links to external CSS and JavaScript files, rather than embedding them directly. It also includes the necessary `type="module"` attribute for the JavaScript files to enable ES6 module imports.
--   **`style.css`**: This file contains all the CSS rules that define the visual presentation of the Game of Life interface. Separating styles into this file keeps the HTML clean and makes it easier to manage the application's appearance.
--   **`script.js`**: This file contains the core JavaScript logic for Conway's Game of Life. It defines the `GameOfLife` class, which handles game mechanics, rendering, and user interactions. The code within `script.js` is encapsulated within an Immediately Invoked Function Expression (IIFE) to prevent global scope pollution. The `game` object is exposed globally via `window.game` only for the `loadPattern` method, which is called directly from HTML `onclick` attributes.
--   **`utils.js`**: This file is dedicated to storing predefined patterns for the Game of Life (e.g., Glider, Blinker, Pulsar). These patterns are exported as an ES6 module and imported by `script.js`, ensuring a clean separation of data from application logic.
+1.  Clone this repository.
+2.  Navigate to the project directory.
+3.  Open `index.html` in a browser like Chrome, Firefox, or Safari.
 
-This modular approach makes the codebase easier to understand, debug, and extend in the future.
+## The Rules of the Game
+
+The Game of Life is a zero-player game, meaning its evolution is determined by its initial state, requiring no further input. The universe is an infinite, two-dimensional orthogonal grid of square "cells," each of which is in one of two possible states, "alive" or "dead."
+
+Every cell interacts with its eight neighbours, which are the cells that are horizontally, vertically, or diagonally adjacent. At each step in time, the following transitions occur:
+
+1.  **Underpopulation**: A living cell with fewer than two living neighbours dies.
+2.  **Survival**: A living cell with two or three living neighbours survives to the next generation.
+3.  **Overpopulation**: A living cell with more than three living neighbours dies.
+4.  **Reproduction**: A dead cell with exactly three living neighbours becomes a living cell.
+
+These simple rules give rise to complex and fascinating emergent behavior, including static patterns (**still lifes**), repeating patterns (**oscillators**), and patterns that move across the grid (**spaceships**).
